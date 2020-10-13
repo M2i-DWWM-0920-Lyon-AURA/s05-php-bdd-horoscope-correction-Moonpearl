@@ -2,11 +2,13 @@
 
 $dbh = new PDO('mysql:host=localhost;dbname=horoscope', 'root', 'root');
 
-$stmt = $dbh->query('SELECT * FROM `signs`');
-
-$signs = $stmt->fetchAll();
-
-$stmt = $dbh->query("SELECT * FROM `horoscopes` WHERE `date` = '2020-10-06'");
+$stmt = $dbh->query("
+SELECT `horoscopes`.`id`, `horoscopes`.`description`, `horoscopes`.`sign_id`, `signs`.`name` AS `sign_name`, `signs`.`image` AS `sign_image`, `signs`.`start_date` AS `sign_start_date`, `signs`.`end_date` AS `sign_end_date`
+FROM `horoscopes`
+JOIN `signs`
+ON `horoscopes`.`sign_id` = `signs`.`id`
+WHERE `date` = '2020-10-13'
+");
 
 $horoscopes = $stmt->fetchAll();
 
@@ -23,15 +25,6 @@ $horoscopes = $stmt->fetchAll();
         <h2>Horoscope du jour</h2>
         <ol id="sign-grid">
             <?php foreach ($horoscopes as $horoscope): ?>
-            <?php
-            
-            foreach ($signs as $sign) {
-                if ($sign['id'] === $horoscope['sign_id']) {
-                    break;
-                }
-            }
-            
-            ?>
             <?php include('templates/sign.tpl.php'); ?>
             <?php endforeach; ?>
         </ol>
