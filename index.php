@@ -6,6 +6,10 @@ $stmt = $dbh->query('SELECT * FROM `signs`');
 
 $signs = $stmt->fetchAll();
 
+$stmt = $dbh->query("SELECT * FROM `horoscopes` WHERE `date` = '2020-10-06'");
+
+$horoscopes = $stmt->fetchAll();
+
 ?>
 
 <?php include('data/links.php'); ?>
@@ -18,7 +22,16 @@ $signs = $stmt->fetchAll();
     <section id="horoscope">
         <h2>Horoscope du jour</h2>
         <ol id="sign-grid">
-            <?php foreach ($signs as $sign): ?>
+            <?php foreach ($horoscopes as $horoscope): ?>
+            <?php
+            
+            foreach ($signs as $sign) {
+                if ($sign['id'] === $horoscope['sign_id']) {
+                    break;
+                }
+            }
+            
+            ?>
             <?php include('templates/sign.tpl.php'); ?>
             <?php endforeach; ?>
         </ol>
