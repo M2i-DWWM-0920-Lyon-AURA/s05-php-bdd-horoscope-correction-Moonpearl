@@ -1,5 +1,14 @@
+<?php
+
+$dbh = new PDO('mysql:host=localhost;dbname=horoscope', 'root', 'root');
+
+$stmt = $dbh->query('SELECT * FROM `signs`');
+
+$signs = $stmt->fetchAll();
+
+?>
+
 <?php include('data/links.php'); ?>
-<?php include('data/signs.php'); ?>
 
 <?php include('templates/head.tpl.php') ?>
 
